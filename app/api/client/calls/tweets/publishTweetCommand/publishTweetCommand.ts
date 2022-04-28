@@ -21,15 +21,18 @@ const publishTweetCommand = function (fetchClient: FetchClient): PublishTweetCom
         }));
       }
 
-      const payload = publishTweetRequestSchema.
-        parse({ text }).
-        unwrapOrThrow();
+      const getPayloadResult = publishTweetRequestSchema.
+        parse({ text });
+
+      if (getPayloadResult.hasError()) {
+        return error(getPayloadResult.error);
+      }
 
       console.log(withBearerToken(token));
 
       await fetchClient.post(
         'tweets/publish',
-        payload,
+        getPayloadResult.value,
         withBearerToken(token)
       );
 

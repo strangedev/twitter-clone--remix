@@ -1,11 +1,5 @@
 import { createLocalTheme } from '../../../../styling/GlobalTheme';
 import styled from 'styled-components';
-import React, { FunctionComponent, ReactElement } from 'react';
-
-interface TextAreaProps {
-  placeholder: string;
-  onChange: (text: string) => void;
-}
 
 const { from } = createLocalTheme(({ globalTheme }) => ({
   border: {
@@ -34,22 +28,7 @@ const StyledTextArea = styled.textarea`
   outline: none;
 `;
 
-const TextArea: FunctionComponent<TextAreaProps> = function ({
-  onChange,
-  placeholder
-}): ReactElement {
-  return (
-    <StyledTextArea
-      onChange={
-        (event): void => {
-          event.preventDefault();
-          onChange(event.target.value);
-        }
-      }
-      placeholder={ placeholder }
-    />
-  );
-};
+const TextArea = StyledTextArea;
 
 export {
   TextArea

@@ -1,7 +1,8 @@
 import { Result } from 'defekt';
+import { ParseError } from 'validate-value';
 
 type RequestExecutor<TParameters, TResponseData, TError extends Error> =
-  (parameters: TParameters) => Promise<Result<TResponseData, TError>>;
+  (parameters: TParameters) => Promise<Result<TResponseData, TError | ParseError>>;
 
 type RequestParameters<TRequestExecutor> =
   TRequestExecutor extends RequestExecutor<infer TParameters, any, any> ?
@@ -15,7 +16,7 @@ type ResponseData<TRequestExecutor> =
 
 type ExecutorError<TRequestExecutor> =
   TRequestExecutor extends RequestExecutor<any, any, infer TError> ?
-    TError :
+    TError | ParseError :
     never;
 
 type ExecutorResult<TRequestExecutor> =

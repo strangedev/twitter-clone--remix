@@ -1,11 +1,12 @@
+import { Form } from 'remix';
+import { useSession } from '~/session/storage';
 import { Button } from '../../../inputs/buttons/Button';
-import { createLocalTheme } from '../../../../styling/GlobalTheme';
+import { createLocalTheme } from '~/styling/GlobalTheme';
 import styled from 'styled-components';
 import { TextArea } from '../../../inputs/textareas/TextArea';
 import React, { FunctionComponent } from 'react';
 
 interface FloatingTweetComposerProps {
-  onChange: (text: string) => void;
   onCancel: () => void;
   onPublish: () => void;
 }
@@ -44,7 +45,7 @@ const { from } = createLocalTheme(({ globalTheme }) => ({
   }
 }));
 
-const Container = styled.div`
+const Container = styled(Form)`
   position: fixed;
   bottom: ${from(theme => theme.position.bottom)};
   right: ${from(theme => theme.position.right)};
@@ -98,28 +99,49 @@ const FooterRight = styled.div`
 `;
 
 const FloatingTweetComposer: FunctionComponent<FloatingTweetComposerProps> =
-  ({ onCancel, onChange, onPublish }) => (
-    <Container>
-      <Headline>
-        Compose a Twööt
-      </Headline>
+  ({ onCancel, onPublish }) => {
+    const session = useSession();
 
-      <Row expand={ true }>
-        <TextArea
-          placeholder='Write something fun...'
-          onChange={ (text): void => onChange(text) }
+    return (
+      <Container
+        method="post"
+        action='./publish'
+      >
+        <Headline>
+          Compose a Twööt
+        </Headline>
+
+        <input
+          type="hidden"
+          name='token'
+          value={ session?.accessToken }
         />
-      </Row>
-      <Footer>
-        <FooterLeft>
-          <Button type='button' label='Cancel' onClick={ (): void => onCancel() } />
-        </FooterLeft>
-        <FooterRight>
-          <Button type='button' label='Publish' onClick={ (): void => onPublish() } />
-        </FooterRight>
-      </Footer>
-    </Container>
-  );
+
+        <Row expand={ true }>
+          <TextArea
+            name="text"
+            placeholder="Write something fun..."
+          />
+        </Row>
+        <Footer>
+          <FooterLeft>
+            <Button
+              type="reset"
+              label="Cancel"
+              onClick={ (): void => onCancel() }
+            />
+          </FooterLeft>
+          <FooterRight>
+            <Button
+              type="submit"
+              label="Publish"
+              onClick={ (): void => onPublish() }
+            />
+          </FooterRight>
+        </Footer>
+      </Container>
+    );
+  };
 
 export {
   FloatingTweetComposer

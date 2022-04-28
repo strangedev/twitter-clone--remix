@@ -5,7 +5,7 @@ import { ActionFunction, json, useActionData, useNavigate } from 'remix';
 import styled from 'styled-components';
 import { StartSessionError, startSessionErrors, UnexpectedError } from '../api/client/calls/sessions/startSessionCommand/startSessionErrors';
 import { getClient } from '../api/client/getClient';
-import { getSession, setSession } from '../auth/storage';
+import { getSession, setSession } from '../session/storage';
 import { Button } from '../components/inputs/buttons/Button';
 import { PasswordTextField } from '../components/inputs/textfields/PasswordTextField';
 import { TextField } from '../components/inputs/textfields/TextField';

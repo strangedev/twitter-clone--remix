@@ -3,29 +3,13 @@ import { createLocalTheme } from '../../../../styling/GlobalTheme';
 import styled from 'styled-components';
 import { PropsWithChildren, ReactElement } from 'react';
 
-interface CommonButtonProps<TAdditionalProps> {
+interface ButtonProps<TAdditionalProps> {
+  type: 'button' | 'submit' | 'reset';
+  onClick?: () => void;
   label: string;
   ContentComponent?: ButtonContent<TAdditionalProps>;
   contentProps?: TAdditionalProps;
 }
-
-interface SubmitButtonProps<TAdditionalProps> extends CommonButtonProps<TAdditionalProps> {
-  type: 'submit';
-}
-
-interface ResetButtonProps<TAdditionalProps> extends CommonButtonProps<TAdditionalProps> {
-  type: 'reset';
-}
-
-interface ScriptButtonProps<TAdditionalProps> extends CommonButtonProps<TAdditionalProps> {
-  type: 'button';
-  onClick: () => void;
-}
-
-type ButtonProps<TAdditionalProps> =
-  | SubmitButtonProps<TAdditionalProps>
-  | ResetButtonProps<TAdditionalProps>
-  | ScriptButtonProps<TAdditionalProps>;
 
 const { from } = createLocalTheme(({ globalTheme }) => ({
   border: {
@@ -68,11 +52,11 @@ const StyledButton = styled.button`
 
 const Button = function <TAdditionalProps = undefined> (props: PropsWithChildren<ButtonProps<TAdditionalProps>>): ReactElement {
   const onClick = props.type === 'button' ? props.onClick : () => {};
-  
+
   if (!props.ContentComponent) {
     return (
       <StyledButton
-        type={ props.type }  
+        type={ props.type }
         aria-label={ props.label }
         onClick={ onClick }
       >

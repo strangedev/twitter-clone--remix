@@ -1,4 +1,6 @@
+import { Form } from 'remix';
 import styled from 'styled-components';
+import { Button } from '~/components/inputs/buttons/Button';
 import { Tweet as TweetModel } from '../../../domainModel/Tweet';
 import { createLocalTheme } from '../../../styling/GlobalTheme';
 import { VerticalSpace } from '../../layout/VerticalSpace';
@@ -69,6 +71,9 @@ const Tweet: FunctionComponent<TweetProps> = function ({ tweet }): ReactElement 
       <Text>
         { tweet.text }
       </Text>
+      <Form action='./like'>
+        <Button type='submit' label='Like' />
+      </Form>
     </Container>
   );
 };

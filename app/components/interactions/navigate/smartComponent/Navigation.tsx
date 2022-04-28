@@ -1,7 +1,7 @@
 import { Brand } from '../Brand';
 import { NavigationEntry } from '../NavigationEntry';
 import { Fragment, FunctionComponent, ReactElement } from 'react';
-import { useSession } from '../../../../auth/storage';
+import { useSession } from '~/session/storage';
 
 const Navigation: FunctionComponent = function (): ReactElement {
   const session = useSession();
@@ -11,7 +11,7 @@ const Navigation: FunctionComponent = function (): ReactElement {
     <div>
       <Brand
         text='Twötter'
-        to='/tweets'
+        to='/app/tweets'
       />
       {
         !isAuthenticated && (
@@ -26,7 +26,7 @@ const Navigation: FunctionComponent = function (): ReactElement {
           <Fragment>
             <NavigationEntry
               text='My Account'
-              to={ `/accounts/${session?.handle}` }
+              to={ `/app/accounts/${session?.handle}/tweets` }
             />
             <NavigationEntry
               text='Logout'
